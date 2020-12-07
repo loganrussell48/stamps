@@ -41,11 +41,9 @@ num time2degrees(DateTime time) {
 ///
 /// Examples:
 /// ```
-/// degrees2time(0) => 06:00:00.000000 //6am is 1/4th of a day, and so is at the +x-axis, 0 degrees
-/// degrees2time(90) => 00:00:00.000000 //midnight is straight up at 90 degrees
-///
+///   degrees2time(0)   => 06:00:00.000000 //6am is 1/4th of a day, and so is at the +x-axis, 0 degrees
+///   degrees2time(90)  => 00:00:00.000000 //midnight is straight up at 90 degrees
 /// ```
-///
 ///[here](https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Rew17h09_1977.jpg/220px-Rew17h09_1977.jpg) is an example of a 24hr clock
 Duration degrees2time(num degrees) {
   degrees = degrees % 360;
