@@ -1,19 +1,17 @@
-import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 
 import 'package:args/command_runner.dart';
 
-class GenerateCommand extends Command{
-
-  GenerateCommand(){
+class GenerateCommand extends Command {
+  GenerateCommand() {
     argParser
       ..addOption(quantity, abbr: 'q', defaultsTo: '10000', help: quantityHelp)
       ..addOption(output, abbr: 'o', defaultsTo: 'times.csv', help: outputHelp)
-      ..addOption(start, abbr: 's', defaultsTo: '2010-12-31 23:50:00.000', help: startHelp)
-      ..addOption(end, abbr: 'e', defaultsTo: '2010-12-31 00:10:00.000')
-    ;
+      ..addOption(start,
+          abbr: 's', defaultsTo: '2010-12-31 23:50:00.000', help: startHelp)
+      ..addOption(end, abbr: 'e', defaultsTo: '2010-12-31 00:10:00.000');
   }
 
   static final String _name = 'generate';
@@ -21,8 +19,7 @@ class GenerateCommand extends Command{
 
   static const quantity = 'quantity';
   var quantityDefault = '10000';
-  static const quantityHelp =
-  '''
+  static const quantityHelp = '''
     The number of timestamps to generate.
     default value is 10000
     for loop starts at 0, so negative values will result in 0 timestamps being
@@ -31,8 +28,7 @@ class GenerateCommand extends Command{
 
   static const output = 'output';
   var outputDefault = 'times.csv';
-  static const outputHelp =
-  '''
+  static const outputHelp = '''
     output flag -output OR -o
     default value is 'times.csv'
     Acceptable Values:
@@ -42,8 +38,7 @@ class GenerateCommand extends Command{
 
   static const start = 'start';
   var startDefault = '2010-12-31 23:50:00.000';
-  static const startHelp =
-    '''
+  static const startHelp = '''
     A Timestamp to be used as a limit for the generated times. 
     Only the Hour & Minute are used - Year, Month, Day, Second, Milliseconds are
     all ignored. 2010-12-31 23:50:00.000 = to 1900-06-17 23:50:00.000 for this
@@ -52,8 +47,7 @@ class GenerateCommand extends Command{
 
   static const end = 'end';
   var endDefault = '2010-12-31 24:10:00.000';
-  static const endHelp =
-  '''
+  static const endHelp = '''
     A Timestamp to be used as a limit for the generated times. 
     Only the Hour & Minute are used - Year, Month, Day, Second, Milliseconds are
     all ignored. 2010-12-31 24:10:00.000 = to 1900-06-17 24:10:00.000 for this
@@ -77,51 +71,60 @@ class GenerateCommand extends Command{
     var startTime = DateTime.parse(startArg);
     var endArg = argResults[GenerateCommand.end] ?? endDefault;
     var endTime = DateTime.parse(endArg);
-    var quantity = int.parse(argResults[GenerateCommand.quantity] ?? quantityDefault);
+    var quantity =
+        int.parse(argResults[GenerateCommand.quantity] ?? quantityDefault);
     var outputLocation = argResults[GenerateCommand.output] ?? outputDefault;
     var result;
-    if('stdout' == outputLocation){
+    if ('stdout' == outputLocation) {
       result = generateTimeStamp(startTime, endTime, quantity);
       print(result.join(','));
-    }
-    else{
+    } else {
       var f = File(outputLocation);
-      if(f.existsSync()){
-        print('The file $outputLocation already exists. Do you want to overwrite it? y/n');
+      if (f.existsSync()) {
+        print(
+            'The file $outputLocation already exists. Do you want to overwrite it? y/n');
         var input = stdin.readLineSync(encoding: Encoding.getByName('utf-8'));
-        if('y' == input.toLowerCase()){
+        if ('y' == input.toLowerCase()) {
           writeResultsToFile(result, startTime, endTime, quantity, f);
         }
-      }
-      else {
+      } else {
         writeResultsToFile(result, startTime, endTime, quantity, f);
       }
     }
   }
 
-  void writeResultsToFile(result, DateTime startTime, DateTime endTime, int quantity, File f) {
+  void writeResultsToFile(
+      result, DateTime startTime, DateTime endTime, int quantity, File f) {
     print('Generating results...');
     result = generateTimeStamp(startTime, endTime, quantity);
     print('Writing results to file...');
     f.writeAsStringSync(result.join(','), mode: FileMode.write);
   }
 
-  List<DateTime> generateTimeStamp(DateTime start, DateTime end, int quantity){
+  List<DateTime> generateTimeStamp(DateTime start, DateTime end, int quantity) {
     var daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
     print('start hour: ${start.hour}');
     print('end hour: ${end.hour}');
-    var hours = [for(int i = start.hour; i < end.hour; i++) i.toString().padLeft(2, '0')];
-    var allMinutes = [for(int i = 0; i < 60; i++) i.toString().padLeft(2, '0')];
+    var hours = [
+      for (int i = start.hour; i < end.hour; i++) i.toString().padLeft(2, '0')
+    ];
+    var allMinutes = [
+      for (int i = 0; i < 60; i++) i.toString().padLeft(2, '0')
+    ];
     var minutes = {
-      start.hour.toString().padLeft(2, '0'): [for(int i = start.minute; i < 60; i++) i.toString().padLeft(2, '0')],
-      end.hour.toString().padLeft(2, '0'): [for(int i = 0; i < end.minute; i++) i.toString().padLeft(2, '0')]
+      start.hour.toString().padLeft(2, '0'): [
+        for (int i = start.minute; i < 60; i++) i.toString().padLeft(2, '0')
+      ],
+      end.hour.toString().padLeft(2, '0'): [
+        for (int i = 0; i < end.minute; i++) i.toString().padLeft(2, '0')
+      ]
     };
     var rand = Random();
     const yearsBaseline = 1900;
     var yearsRange = DateTime.now().year - yearsBaseline;
     var result = <DateTime>[];
-    for(int i = 0; i < quantity; i++) {
-      var randYear = rand.nextInt(yearsRange)+yearsBaseline;
+    for (int i = 0; i < quantity; i++) {
+      var randYear = rand.nextInt(yearsRange) + yearsBaseline;
       var randMonth = rand.nextInt(12);
       var month = randMonth.toString().padLeft(2, '0');
       var randDay = (rand.nextInt(daysInMonth[randMonth]) + 1);
@@ -135,7 +138,8 @@ class GenerateCommand extends Command{
       var second = randSecond.toString().padLeft(2, '0');
       var randMillis = rand.nextInt(1000);
       var millis = randMillis.toString().padLeft(3, '0');
-      result.add(DateTime.parse('$randYear-$month-${day} $hour:$minute:$second.${millis}'));
+      result.add(DateTime.parse(
+          '$randYear-$month-${day} $hour:$minute:$second.${millis}'));
     }
     return result;
   }
