@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:TimeAverage/commands/average-command.dart';
+import 'package:stamps/commands/average-command.dart';
 
 extension Trig on num {
   num get toDegrees => this * 180 / pi;

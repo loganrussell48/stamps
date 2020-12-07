@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/TimeAverage.iml" filepath="$PROJECT_DIR$/TimeAverage.iml" />
+      <module fileurl="file://$PROJECT_DIR$/stamps.iml" filepath="$PROJECT_DIR$/stamps.iml" />
     </modules>
   </component>
 </project>

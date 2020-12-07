@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:TimeAverage/commands/average-command.dart';
-import 'package:TimeAverage/commands/generate-command.dart';
 import 'package:args/command_runner.dart';
+import 'package:stamps/commands/average-command.dart';
+import 'package:stamps/commands/generate-command.dart';
 
 int main(List<String> args){
   exitCode = 0;

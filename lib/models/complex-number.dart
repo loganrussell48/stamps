@@ -19,7 +19,7 @@ class ComplexNumber {
   }
 
   ComplexNumber inv() {
-    final sup = module * module;
+    final sup = modulus * modulus;
     return ComplexNumber(x: x / sup, y: -y / sup);
   }
 
@@ -27,7 +27,7 @@ class ComplexNumber {
     return this * (z.inv());
   }
 
-  double get module {
+  double get modulus {
     return sqrt(x * x + y * y);
   }
 

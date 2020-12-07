@@ -1,12 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'dart:math';
 
-import 'package:TimeAverage/logic/average.dart';
 import 'package:args/command_runner.dart';
-
-import '../models/implementations/complex-number.dart';
+import 'package:stamps/logic/average.dart';
 
 class AverageCommand extends Command{
 
