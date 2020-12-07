@@ -1,8 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 
+import 'package:TimeAverage/logic/average.dart';
 import 'package:args/command_runner.dart';
+
+import '../models/implementations/complex-number.dart';
 
 class AverageCommand extends Command{
 
@@ -13,11 +17,7 @@ class AverageCommand extends Command{
   }
 
   static final String _name = 'average';
-  static final String _description =
-  '''
-  Calculates the average time (hour/minute) of the list of times in the provided
-  comma-separated-values (csv) file
-  ''';
+  static final String _description = 'Calculates the average time (hour/minute) of the list of times in the provided comma-separated-values (csv) file';
 
   static const file = 'file';
   static const fileHelp =
@@ -58,10 +58,10 @@ class AverageCommand extends Command{
       print('Parsing results...');
       var split = content.split(',');
       var dateTimes = split.map((e) => DateTime.parse(e));
-      var values = dateTimes.map((DateTime e) => Runtime(e.hour, e.minute, e.second, e.millisecond).value);
-      var average = values.stats.average.toTime();
+      var average_degrees = average(dateTimes.map((e) => time2degrees(e)));
+      var res = degrees2time(average_degrees);
       if('stdout' == output){
-        print(average);
+        print(res);
       }
       else{
         var outputFile = File(output);
@@ -69,23 +69,27 @@ class AverageCommand extends Command{
           print('The file $outputFile already exists. Do you want to overwrite it? y/n');
           var input = stdin.readLineSync(encoding: Encoding.getByName('utf-8'));
           if('y' == input.toLowerCase()){
-            outputFile.writeAsStringSync('$average');
+            outputFile.writeAsStringSync('$res');
           }
           else {
             print('Cancelling File Output.');
-            print('Average: $average');
+            print('Average: $res');
           }
         }
         else {
-          outputFile.writeAsStringSync('$average');
+          outputFile.writeAsStringSync('$res');
         }
-
-        outputFile.writeAsStringSync('$average', mode: FileMode.write);
+        outputFile.writeAsStringSync('$res', mode: FileMode.write);
       }
     }
-
+    return 0;
   }
 }
+
+
+
+
+
 
 class Runtime {
   int hour;
@@ -130,49 +134,5 @@ class NumSummaryStatistics {
   @override
   String toString() {
     return 'IntSummaryStatistics{min: $min, max: $max, range: $range, count: $count, average: $average, sum: $sum}';
-  }
-}
-extension BIterableNum on Iterable<num> {
-  static final String _rangeInputSizeErrorMessage =
-  '''The iterable upon which the "range" getter was invoked has invalid size.
-       Make sure there are only 2 num elements in the iterable.''';
-
-  ///Returns the sum of the elements as a BigInt to avoid overflow
-  BigInt get sum => fold(BigInt.zero, (l, r) => l + BigInt.from(r));
-
-  ///Returns the product of the elements as a BigInt to avoid overflow
-  BigInt get product => fold(BigInt.one, (l, r) => l * BigInt.from(r));
-
-  ///Returns the summary stats for this iterable. Stats include,
-  ///sum, product, max, min, count, and range
-  NumSummaryStatistics get stats => NumSummaryStatistics(this);
-
-  ///returns an iterable containing all the ints in the given range, inclusive
-  ///
-  /// Notice that the input is `num` not `int`.
-  Iterable<int> get range {
-    if (length != 2) throw ArgumentError(_rangeInputSizeErrorMessage);
-    var it = iterator;
-    var start = (it..moveNext()).current;
-    var end = (it..moveNext()).current;
-    return [for (int i = start.ceil(); i <= end; i++) i];
-  }
-}
-extension NumToTime on num {
-  Duration toTime(){
-    var value = this.abs();
-    var hours = value.toInt(); value -= hours;
-    var minutes = (value*=60).toInt(); value -= minutes;
-    var seconds = (value *= 60).toInt(); value -= seconds;
-    var millis = (value *= 1000).toInt(); value -= millis;
-    var micros = (value *= 1000000).toInt(); value -= micros;
-    var d = Duration(
-        hours: hours%24,
-        minutes: minutes,
-        seconds: seconds,
-        milliseconds: millis,
-        microseconds: micros
-    );
-    return d;
   }
 }

@@ -17,7 +17,7 @@ class GenerateCommand extends Command{
   }
 
   static final String _name = 'generate';
-  static final String _description = '';
+  static final String _description = 'Generates timestamps';
 
   static const quantity = 'quantity';
   var quantityDefault = '10000';
@@ -108,7 +108,9 @@ class GenerateCommand extends Command{
 
   List<DateTime> generateTimeStamp(DateTime start, DateTime end, int quantity){
     var daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-    var hours = [for(int i = start.hour; i < (end.hour == 0 ? 24 : end.hour); i++) i.toString().padLeft(2, '0')];
+    print('start hour: ${start.hour}');
+    print('end hour: ${end.hour}');
+    var hours = [for(int i = start.hour; i < end.hour; i++) i.toString().padLeft(2, '0')];
     var allMinutes = [for(int i = 0; i < 60; i++) i.toString().padLeft(2, '0')];
     var minutes = {
       start.hour.toString().padLeft(2, '0'): [for(int i = start.minute; i < 60; i++) i.toString().padLeft(2, '0')],
