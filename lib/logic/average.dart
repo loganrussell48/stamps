@@ -16,7 +16,17 @@ num dps = dpm / 60;
 num dpmilli = dps / 1000;
 
 ///converts a time to degrees on a 24hr clock
-///00:00.000 will be 90, 06:00.000 will be 0 since it is 1/4th of a day
+///
+///The formula used is
+///```
+///   t = -h * dph -m * dpm -s * dps -mi * dpmilli + 90
+///
+///   where h = hour, m = min, s = second, mi = millisecond
+///   dph = degrees per hour, dpm = degrees per minute,
+///   dps = degrees per second and dpmilli = degrees per millisecond
+///```
+///
+///
 num time2degrees(DateTime time) {
   var h = time.hour;
   var m = time.minute;
@@ -26,6 +36,17 @@ num time2degrees(DateTime time) {
   return t;
 }
 
+///converts [degrees] to a [Duration] object that is equivalent to the time
+///on a 24hr analog clock with a single hand rotated by [degrees] above x-axis
+///
+/// Examples:
+/// ```
+/// degrees2time(0) => 06:00:00.000000 //6am is 1/4th of a day, and so is at the +x-axis, 0 degrees
+/// degrees2time(90) => 00:00:00.000000 //midnight is straight up at 90 degrees
+///
+/// ```
+///
+///[here](https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Rew17h09_1977.jpg/220px-Rew17h09_1977.jpg) is an example of a 24hr clock
 Duration degrees2time(num degrees) {
   degrees = degrees % 360;
   var hours = degrees ~/ dph % 24;
