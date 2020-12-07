@@ -1,8 +1,8 @@
-#stamps
+# stamps
 
 A small CLI tool for generating and averaging timestamps
 
-##Usage: 
+## Usage: 
 `stamps <command> [arguments]`
 
 Global options:
@@ -16,8 +16,8 @@ Available commands:
 
 Run `stamps help <command>` for more information about a command.
 
-##Examples:
-####To generate 100,000 timestamps from 7 minutes after midnight until 9:50pm
+## Examples:
+#### To generate 100,000 timestamps from 7 minutes after midnight until 9:50pm
 
 `stamps generate -s "2010-12-31 00:07:00.000" -e "2010-12-31 21:50:00.000" -q 100000`
 
@@ -25,7 +25,7 @@ The output will, by default, go to a file named _times.csv_. You can specify an 
 
 **Note**: _the year-month-day is arbitrary for the purposes of this application, but it must be a valid date for parsing into DateTime objects_
 
-####To calculate the average of a collection of timestamps
+#### To calculate the average of a collection of timestamps
 
 `stamps average`
 
@@ -33,7 +33,7 @@ The input will, by default, be _times.csv_. You can specify an input file using 
 
 The output will, by default, be to stdout. You can specify an output file using parameters. Run `stamps help average` for more information.
 
-##How it's calculated
+## How it's calculated
 
 The average is calculated by converting every time to the corresponding angle on a 24hr analog clock. You can find a visualization [here][1]
 
