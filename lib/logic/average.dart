@@ -1,7 +1,7 @@
 import 'dart:math';
 
+import 'package:stamps/models/complex-number.dart';
 import 'package:stamps/utils/extensions.dart';
-import 'file:///Z:/Desktop/random-programming/TimeAverage/lib/models/complex-number.dart';
 
 ///degrees per hour on a 24hr clock
 num dph = 360 / (24);
