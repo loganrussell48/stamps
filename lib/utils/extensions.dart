@@ -49,7 +49,8 @@ extension IterableNum on Iterable<num> {
 }
 
 extension Date2Dur on DateTime {
-  Duration toDuration() => Duration(hours: hour, minutes: minute, seconds: second, milliseconds: millisecond);
+  Duration toDuration() => Duration(
+      hours: hour, minutes: minute, seconds: second, milliseconds: millisecond);
 }
 
 extension Durs on Duration {

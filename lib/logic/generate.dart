@@ -7,9 +7,7 @@ List<DateTime> generateTimeStamp(DateTime start, DateTime end, int quantity) {
   var hours = [
     for (int i = start.hour; i < end.hour; i++) i.toString().padLeft(2, '0')
   ];
-  var allMinutes = [
-    for (int i = 0; i < 60; i++) i.toString().padLeft(2, '0')
-  ];
+  var allMinutes = [for (int i = 0; i < 60; i++) i.toString().padLeft(2, '0')];
   var minutes = {
     start.hour.toString().padLeft(2, '0'): [
       for (int i = start.minute; i < 60; i++) i.toString().padLeft(2, '0')

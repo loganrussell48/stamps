@@ -1,19 +1,20 @@
 import 'package:stamps/logic/average.dart';
 import 'package:stamps/logic/generate.dart';
-import 'package:test/test.dart';
 import 'package:stamps/utils/extensions.dart';
+import 'package:test/test.dart';
+
 void main() {
-  group('convert', (){
-    test('DateTime to Duration', (){
+  group('convert', () {
+    test('DateTime to Duration', () {
       var dt = DateTime(2020, 12, 8, 10, 44, 20, 0, 0);
       var dur = dt.toDuration();
       var durs = dur.toString();
       expect(durs.substring(0, durs.length - 3), dt.toString().split(' ')[1]);
     });
   });
-  group('generate', (){
-    test('between 07:00 & 23:30', (){
-      DateTime start = DateTime (2020, 12, 8, 7);
+  group('generate', () {
+    test('between 07:00 & 23:30', () {
+      DateTime start = DateTime(2020, 12, 8, 7);
       DateTime end = DateTime(2020, 12, 8, 23, 30);
       var results = generateTimeStamp(start, end, 10000);
       var before0700 = results.where((dt) => dt.hour < 7);
@@ -22,7 +23,7 @@ void main() {
       expect(after2330.length, 0);
     });
   });
-  group('time2degrees', (){
+  group('time2degrees', () {
     test('works for 5am', () {
       var five = DateTime(2020, 12, 6, 5);
       var five2degrees = time2degrees(five);
@@ -59,7 +60,7 @@ void main() {
       expect(elevenP2degrees, -255);
     });
   });
-  group('degrees2Time', (){
+  group('degrees2Time', () {
     test('works for 5am', () {
       var time = DateTime(2020, 12, 6, 5);
       var degrees = 15;

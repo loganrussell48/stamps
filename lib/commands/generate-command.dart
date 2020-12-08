@@ -100,6 +100,4 @@ class GenerateCommand extends Command {
     print('Writing results to file...');
     f.writeAsStringSync(result.join(','), mode: FileMode.write);
   }
-
-
 }
