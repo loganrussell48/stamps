@@ -1,3 +1,4 @@
 # Project exclude paths
 /.dart_tool/
 .packages
+.test_coverage.dart

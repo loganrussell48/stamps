@@ -47,3 +47,15 @@ extension IterableNum on Iterable<num> {
     return [for (int i = start.ceil(); i <= end; i++) i];
   }
 }
+
+extension Date2Dur on DateTime {
+  Duration toDuration() => Duration(
+      hours: hour, minutes: minute, seconds: second, milliseconds: millisecond);
+}
+
+extension Durs on Duration {
+  int get hour => inHours % 24;
+  int get minute => inMinutes % 60;
+  int get second => inSeconds % 60;
+  int get millisecond => inMilliseconds % 1000;
+}
